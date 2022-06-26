@@ -9,6 +9,7 @@ import ItemList from './Item_list';
 import Detail from './Item_detail';
 import Event from './Event'
 import {data} from '../utils/data.js';
+import Cart from './Cart'
 
 export let Context1 = createContext();  // context api
 
@@ -17,6 +18,8 @@ function App() {
   let [itemsNextCount, setItemsNextCount] = useState(0);  // ajax
   let [itemsNextView, setItemsNextView] = useState(true);  // ajax
   let [stock, setStock] = useState([10, 11, 12]);  // context api
+
+  let navigate = useNavigate();
 
   let getItem = () => {
     if (itemsNextCount === 0) {
@@ -49,8 +52,8 @@ function App() {
         <Container>
         <Navbar.Brand href="#home">Shop</Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/detail">Cart</Nav.Link>
+          <Nav.Link onClick={() => { navigate('/') }}>Home</Nav.Link>
+          <Nav.Link onClick={() => { navigate('/cart') }}>Cart</Nav.Link>
         </Nav>
         </Container>
       </Navbar>
@@ -83,6 +86,8 @@ function App() {
 
         {/* <Route path="/datail" element={ <Detail item={"hi"}></Detail> } /> */}
         <Route path="*" element={ <div> Not found 404 </div> } />
+
+        <Route path="/cart" element={ <Cart></Cart> } />
 
         <Route path="/event" element={ <Event /> } >  
           {/* nested routes */}

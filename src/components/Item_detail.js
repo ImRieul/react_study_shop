@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from 'react';
 import { Nav } from 'react-bootstrap';
+import { useDispatch } from "react-redux";
 
+import { addCart } from "../store.js";
 import { Context1 } from './App.js'
 
 function Detail(props) {
@@ -10,6 +12,8 @@ function Detail(props) {
   let [tab, setTab] = useState(0);  // tab UI
   let [animation, setAnimation] = useState('start');  // tab UI
   let { stock } = useContext(Context1);  // context api
+
+  let dispatch = useDispatch();  // redux
 
   useEffect(() => {
     setTimeout(() => { setAnimation('start end') }, 100);
@@ -29,7 +33,10 @@ function Detail(props) {
           <p>{ item.content }</p>
           <p>{ item.price }</p>
           <div>{ stock[0] }</div>
-          <button className="btn btn-danger">Flex</button> 
+          <button className="btn btn-danger">Flex</button>
+          <button className="btn btn-primary" onClick={() => {
+            dispatch(addCart(item));
+          }}>add Cart</button>
         </div>
       </div>
 
