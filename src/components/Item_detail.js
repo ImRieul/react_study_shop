@@ -5,8 +5,9 @@ import styled from 'styled-components';
 function Detail(props) {
   let {id} = useParams();
   let item = props.item.find(x => x.id == id)
-  let [view, setView] = useState(true);
-  let [count, setCount] = useState(0);
+  let [view, setView] = useState(true);  // useEffect 1
+  let [count, setCount] = useState(0);  // useEffect 1
+  let [policy, setPolicy] = useState(''); // useEffect 2
 
   // html 로드 된 이후 실행
   // useEffect(Callback, variable or state)
@@ -20,12 +21,22 @@ function Detail(props) {
     let hide = setTimeout(() => {
       setView(false);
     }, 2000)
+
+
+
     return () => {
       // useEffect의 2번째 매개변수에 []를 넣으면 unmonut시 1회 실행
       // before start
       clearTimeout(hide);
     }
   });
+
+  useEffect(() => {
+    const reg = new RegExp('[0-9]');
+    if (reg.test(policy)) {
+      alert('NO NUMBER');
+    } 
+  }, [policy])
 
 
   return (
@@ -45,7 +56,8 @@ function Detail(props) {
         // styled-components
         view? <YellowBtn id="yellowBtn">Yellow Button</YellowBtn>: null
       }
-      <button onClick={() => { setCount(count+1) } }>Count</button>
+      { view? <button onClick={() => { setCount(count+1) } }>Count</button> : null }
+      <input onChange={ (event) => { setPolicy(event.target.value)}} />
     </div> 
   )
 }
