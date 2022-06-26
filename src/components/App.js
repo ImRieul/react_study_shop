@@ -41,7 +41,10 @@ function App() {
             </div>
           </>
         } />
-        <Route path="/datail" element={ <Detail item={"hi"}></Detail> } />
+
+        <Route path="/detail/:id" element={ <Detail item={ items }/> }/>
+
+        {/* <Route path="/datail" element={ <Detail item={"hi"}></Detail> } /> */}
         <Route path="*" element={ <div> Not found 404 </div> } />
 
         <Route path="/event" element={ <Event /> } >  
