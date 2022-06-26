@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Navbar, Container, Nav } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
-// import 'bootstrap/dist/css/bootstrap.css'
+import styled from 'styled-components';
 
 import '../css/App.css';
 import ItemList from './Item_list';
@@ -39,15 +39,19 @@ function App() {
                 }
               </div>
             </div>
+            {/* styled-components */}
+            {/* <YellowBtn>Yellow Button</YellowBtn> */}
           </>
         } />
 
+        {/* url parameter */}
         <Route path="/detail/:id" element={ <Detail item={ items }/> }/>
 
         {/* <Route path="/datail" element={ <Detail item={"hi"}></Detail> } /> */}
         <Route path="*" element={ <div> Not found 404 </div> } />
 
         <Route path="/event" element={ <Event /> } >  
+          {/* nested routes */}
           <Route path="one" element={ <div>Give service if first buy</div> } />
           <Route path="two" element={ <div>Get Coupon with birth day</div> } />
         </Route>
@@ -58,3 +62,11 @@ function App() {
 }
 
 export default App;
+
+// styled-components
+// css 기능을 js로 할 수 있음, 굳이 써야 할 이유는 모르겠음.
+let YellowBtn = styled.button` 
+  background : ${ props => props.bg };
+  color : ${ props => props.bg == 'blue' ? 'white' : 'black' };
+  padding : 10px; 
+`; 
