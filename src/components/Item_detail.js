@@ -1,13 +1,15 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
-import styled from 'styled-components';
+import { useState, useEffect, useContext } from 'react';
+import { Nav } from 'react-bootstrap';
+
+import { Context1 } from './App.js'
 
 function Detail(props) {
   let {id} = useParams();
-  let item = props.item.find(x => x.id == id)
+  let item = props.item.find(x => x.id == id);
   let [tab, setTab] = useState(0);  // tab UI
-  let [animation, setAnimation] = useState('start')  // tab UI
+  let [animation, setAnimation] = useState('start');  // tab UI
+  let { stock } = useContext(Context1);  // context api
 
   useEffect(() => {
     setTimeout(() => { setAnimation('start end') }, 100);
@@ -26,6 +28,7 @@ function Detail(props) {
           <h4 className="pt-5">{ item.title }</h4>
           <p>{ item.content }</p>
           <p>{ item.price }</p>
+          <div>{ stock[0] }</div>
           <button className="btn btn-danger">Flex</button> 
         </div>
       </div>

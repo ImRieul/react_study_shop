@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { createContext, useState } from 'react';
 import { Button, Navbar, Container, Nav } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 
@@ -10,11 +10,13 @@ import Detail from './Item_detail';
 import Event from './Event'
 import {data} from '../utils/data.js';
 
+export let Context1 = createContext();  // context api
 
 function App() {
   let [items, setItems] = useState(data);
   let [itemsNextCount, setItemsNextCount] = useState(0);  // ajax
-  let [itemsNextView, setItemsNextView] = useState(true);
+  let [itemsNextView, setItemsNextView] = useState(true);  // ajax
+  let [stock, setStock] = useState([10, 11, 12]);  // context api
 
   let getItem = () => {
     if (itemsNextCount === 0) {
@@ -57,15 +59,15 @@ function App() {
         <Route path="/" element={
           <>
             <div className="main-bg"></div>
-            <div className="container">
-              <div className="row">
-                {
-                  items.map( (value) => {
-                    return( 
-                      <ItemList item={ value } key={value.id}></ItemList>
-                    )
-                  })
-                }
+              <div className="container">
+                <div className="row">
+                  {
+                    items.map( (value) => {
+                      return( 
+                        <ItemList item={ value } key={value.id}></ItemList>
+                      )
+                    })
+                  }
               </div>
             </div>
             { itemsNextView? <button onClick={getItem}>List Update</button> : null }
@@ -73,7 +75,11 @@ function App() {
         } />
 
         {/* url parameter */}
-        <Route path="/detail/:id" element={ <Detail item={ items }/> }/>
+        <Route path="/detail/:id" element={
+          <Context1.Provider value={{ items, stock }}>
+            <Detail item={ items }/>
+          </Context1.Provider>
+        }/>
 
         {/* <Route path="/datail" element={ <Detail item={"hi"}></Detail> } /> */}
         <Route path="*" element={ <div> Not found 404 </div> } />
