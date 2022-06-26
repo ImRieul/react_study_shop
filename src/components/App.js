@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Button, Navbar, Container, Nav } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
-import styled from 'styled-components';
 
 import '../css/App.css';
 import ItemList from './Item_list';
 import Detail from './Item_detail';
 import Event from './Event'
 import {data} from '../utils/data.js';
+
 
 function App() {
   let [items, setItems] = useState(data);
@@ -39,8 +39,6 @@ function App() {
                 }
               </div>
             </div>
-            {/* styled-components */}
-            {/* <YellowBtn>Yellow Button</YellowBtn> */}
           </>
         } />
 
@@ -63,10 +61,3 @@ function App() {
 
 export default App;
 
-// styled-components
-// css 기능을 js로 할 수 있음, 굳이 써야 할 이유는 모르겠음.
-let YellowBtn = styled.button` 
-  background : ${ props => props.bg };
-  color : ${ props => props.bg == 'blue' ? 'white' : 'black' };
-  padding : 10px; 
-`; 
