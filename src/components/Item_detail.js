@@ -5,19 +5,28 @@ import styled from 'styled-components';
 function Detail(props) {
   let {id} = useParams();
   let item = props.item.find(x => x.id == id)
+  let [view, setView] = useState(true);
+  let [count, setCount] = useState(0);
 
   // html 로드 된 이후 실행
+  // useEffect(Callback, variable or state)
+  // 2번째 매개변수에 아무 값도 입력하지 않으면 계속 실행, []를 넣으면 1번만 실행
+  // 특정 변수를 넣으면 그 변수가 변경될 때만 싫행
   useEffect(()=>{
     // run if component load or update
+    // after start
     console.log('안녕');
     console.log(count);
-    setTimeout(() => {
-      document.getElementById('yellowBtn').style.visibility = 'hidden';
-      document.getElementById('countBtn').style.visibility = 'hidden';
+    let hide = setTimeout(() => {
+      setView(false);
     }, 2000)
+    return () => {
+      // useEffect의 2번째 매개변수에 []를 넣으면 unmonut시 1회 실행
+      // before start
+      clearTimeout(hide);
+    }
   });
 
-  let [count, setCount] = useState(0);
 
   return (
     <div className="container">
@@ -32,9 +41,11 @@ function Detail(props) {
           <button className="btn btn-danger">Flex</button> 
         </div>
       </div>
-      {/* styled-components */}
-      <YellowBtn id="yellowBtn">Yellow Button</YellowBtn>
-      <button id='countBtn' onClick={() => { setCount(count+1) }}>Count</button>
+      {
+        // styled-components
+        view? <YellowBtn id="yellowBtn">Yellow Button</YellowBtn>: null
+      }
+      <button onClick={() => { setCount(count+1) } }>Count</button>
     </div> 
   )
 }
