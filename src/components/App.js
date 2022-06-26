@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Navbar, Container, Nav } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 
@@ -13,6 +13,33 @@ import {data} from '../utils/data.js';
 
 function App() {
   let [items, setItems] = useState(data);
+  let [itemsNextCount, setItemsNextCount] = useState(0);  // ajax
+  let [itemsNextView, setItemsNextView] = useState(true);
+
+  let getItem = () => {
+    if (itemsNextCount === 0) {
+      // axios는 자동으로 JSON -> object/array 변환을 해줌
+      axios.get('https://codingapple1.github.io/shop/data2.json')
+      .then((response) => {
+        setItems(items.concat(response.data));
+        setItemsNextCount(itemsNextCount+1);
+      })
+      .catch(() => {
+        console.log('false data2');
+      })
+    }
+    else if (itemsNextCount === 1) {
+      axios.get('https://codingapple1.github.io/shop/data3.json')
+      .then((response) => {
+        setItems(items.concat(response.data));
+        setItemsNextCount(itemsNextCount+1);
+        setItemsNextView(false);
+      })
+      .catch(() => {
+        console.log('false data3')
+      })
+    }
+  }
 
   return (
     <div className="App">
@@ -41,15 +68,7 @@ function App() {
                 }
               </div>
             </div>
-            <button onClick={() => {
-              axios.get('https://codingapple1.github.io/shop/data2.json')
-              .then((response) => {
-                setItems(items.concat(response.data));
-              })
-              .catch(() => {
-                console.log('false');
-              })
-            }}>List Update</button>
+            { itemsNextView? <button onClick={getItem}>List Update</button> : null }
           </>
         } />
 
