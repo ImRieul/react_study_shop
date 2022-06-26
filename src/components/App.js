@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Button, Navbar, Container, Nav } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 
+import axios from 'axios';
+
 import '../css/App.css';
 import ItemList from './Item_list';
 import Detail from './Item_detail';
@@ -39,6 +41,15 @@ function App() {
                 }
               </div>
             </div>
+            <button onClick={() => {
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+              .then((response) => {
+                setItems(items.concat(response.data));
+              })
+              .catch(() => {
+                console.log('false');
+              })
+            }}>List Update</button>
           </>
         } />
 
@@ -54,7 +65,6 @@ function App() {
           <Route path="two" element={ <div>Get Coupon with birth day</div> } />
         </Route>
       </Routes>
-
     </div>
   );
 }
