@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import {data} from './data.js';
-
 function ItemList(props) {
     return (
       <div className="col-md-4">

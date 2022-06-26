@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Button, Navbar, Container, Nav } from 'react-bootstrap';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 // import 'bootstrap/dist/css/bootstrap.css'
 
 import '../css/App.css';
-import ItemList from './ItemList';
-import {data} from './data.js';
+import ItemList from './Item_list';
+import Detail from './Item_detail';
+import Event from './Event'
+import {data} from '../utils/data.js';
 
 function App() {
   let [items, setItems] = useState(data);
@@ -39,6 +41,13 @@ function App() {
             </div>
           </>
         } />
+        <Route path="/datail" element={ <Detail item={"hi"}></Detail> } />
+        <Route path="*" element={ <div> Not found 404 </div> } />
+
+        <Route path="/event" element={ <Event /> } >  
+          <Route path="one" element={ <div>Give service if first buy</div> } />
+          <Route path="two" element={ <div>Get Coupon with birth day</div> } />
+        </Route>
       </Routes>
 
     </div>
