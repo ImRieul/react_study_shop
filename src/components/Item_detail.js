@@ -22,7 +22,7 @@ function Detail(props) {
     )
   }, [])
 
-  localStorage.getItem('watched');
+  addLocalStorage('watched', [item.id]);
 
   return (
     <div className={`container ${animation}`}>
@@ -77,4 +77,47 @@ function TabContent(props) {
       { [<div>content 0</div>, <div>content 1</div>, <div>content 2</div>][props.tab] }
     </div>
   )
+}
+
+function addLocalStorage(key, value) {
+  let targetLocalStorage;
+
+  try {
+    targetLocalStorage = JSON.parse(localStorage.getItem(key));
+    !targetLocalStorage && isType(value, 'Array') && localStorage.setItem(key, []);
+    !targetLocalStorage && isType(value, 'Object') && localStorage.setItem(key, {});
+  }
+  catch (e) {
+    if (e instanceof SyntaxError) {
+      console.log('create localStorage item')
+      if ( isType(value, 'Array')) {
+        localStorage.setItem(key, []);
+        targetLocalStorage = [];
+      }
+      else if (  isType(value, 'Object') ) {
+        localStorage.setItem(key, {});
+        targetLocalStorage = {};
+      }
+    }
+  }
+
+  if ( isType(value, 'Array') && isType(targetLocalStorage, 'Array') ) {
+    // localStorage.setItem(key, JSON.stringify(targetLocalStorage.concat(value.filter((val) => {
+    //     return targetLocalStorage.indexOf(val) == -1
+    //   }))
+    // ));
+
+    localStorage.setItem(key, JSON.stringify(Array.from(new Set(targetLocalStorage.concat(value)))));
+
+    return true;
+  }
+  else if ( isType(value, 'Object') && isType(targetLocalStorage, 'Object') ) {
+    localStorage.setItem(key, JSON.stringify(Object.assign(targetLocalStorage, value)));
+    return true;
+  }
+  return false;
+}
+
+function isType(value, type) {
+  return Object.prototype.toString.call(value) === `[object ${type}]`;
 }
