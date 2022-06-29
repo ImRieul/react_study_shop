@@ -22,6 +22,8 @@ function Detail(props) {
     )
   }, [])
 
+  localStorage.getItem('watched');
+
   return (
     <div className={`container ${animation}`}>
       <div className="row">
